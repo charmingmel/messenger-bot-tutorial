@@ -1,11 +1,12 @@
 'use strict'
 
+require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
 
-app.set('port', (process.env.PORT || 5000))
+app.set('port', (process.env.PORT || 7777))
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({extended: false}))
@@ -50,13 +51,11 @@ app.post('/webhook/', function (req, res) {
 })
 
 
-// recommended to inject access tokens as environmental variables, e.g.
-// const token = process.env.PAGE_ACCESS_TOKEN
-const token = "<PAGE_ACCESS_TOKEN>"
+// recommended to inject access tokens as environmental variables
+const token = process.env.PAGE_ACCESS_TOKEN
 
 function sendTextMessage(sender, text) {
 	let messageData = { text:text }
-	
 	request({
 		url: 'https://graph.facebook.com/v2.6/me/messages',
 		qs: {access_token:token},

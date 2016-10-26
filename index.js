@@ -5,6 +5,9 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 const app = express()
+const movies = require('./data/movie');
+const cheerio = require('cheerio');
+const fs = require('fs');
 
 app.set('port', (process.env.PORT || 7777))
 
@@ -16,6 +19,17 @@ app.use(bodyParser.json())
 
 // index
 app.get('/', function (req, res) {
+	// request('http://ozonecinemas.com/now_showing.htm', function(err, respond, html) {
+	// 	// let body = cheerio.load(html);
+	// 	let $ = cheerio.load(html);
+	// 	let content = $('td').attr('width','540').first().html();
+	// 	// [0].children[1].children[0].children;
+	// 	// console.log(content)
+	// 	fs.writeFile('data/content.html', content, (err) => {
+	// 	  if (err) throw err;
+	// 	  console.log('It\'s saved!');
+	// 	});
+	// })
 	res.send('hello world i am a secret bot')
 })
 
@@ -34,9 +48,11 @@ app.post('/webhook/', function (req, res) {
 	for (let i = 0; i < messaging_events.length; i++) {
 		let event = req.body.entry[0].messaging[i]
 		let sender = event.sender.id
+		console.log('sender ===>', sender);
 		if (event.message && event.message.text) {
 			let text = event.message.text
-			if (text === 'Generic') {
+			console.log('Text', text);
+			if (text === 'movies') {
 				sendGenericMessage(sender)
 				continue
 			}
@@ -81,12 +97,12 @@ function sendGenericMessage(sender) {
 			"payload": {
 				"template_type": "generic",
 				"elements": [{
-					"title": "First card",
+					"title": "Avatar is showing now",
 					"subtitle": "Element #1 of an hscroll",
-					"image_url": "http://messengerdemo.parseapp.com/img/rift.png",
+					"image_url": "http://images2.fanpop.com/image/photos/12300000/Avatar-avatar-12304477-1280-720.jpg",
 					"buttons": [{
 						"type": "web_url",
-						"url": "https://www.messenger.com",
+						"url": "https://www.enksoft.com",
 						"title": "web url"
 					}, {
 						"type": "postback",
@@ -94,9 +110,9 @@ function sendGenericMessage(sender) {
 						"payload": "Payload for first element in a generic bubble",
 					}],
 				}, {
-					"title": "Second card",
+					"title": "Midnight in Paris Las Vegas",
 					"subtitle": "Element #2 of an hscroll",
-					"image_url": "http://messengerdemo.parseapp.com/img/gearvr.png",
+					"image_url": "https://upload.wikimedia.org/wikipedia/commons/5/51/The_hotel_Paris_Las_Vegas_as_seen_from_the_hotel_The_Bellagio.jpg",
 					"buttons": [{
 						"type": "postback",
 						"title": "Postback",

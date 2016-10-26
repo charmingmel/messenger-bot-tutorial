@@ -12,6 +12,11 @@
     "body-parser": "^1.15.0",
     "dotenv": "^2.0.0",
     "express": "^4.13.4",
+    "fs": "0.0.1-security",
+    "cheerio": "^0.22.0",
     "request": "^2.71.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }
